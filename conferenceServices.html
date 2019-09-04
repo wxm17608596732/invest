@@ -1,0 +1,74 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link investmentGuide CSS -->
+    <link rel="stylesheet" type="text/css" href="css/investmentGuide.css" />
+    <title id="Htitle">活动详情--会议服务</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="investmentGuide">
+
+        <div class="investmentGuide-all">
+            <div class="investmentGuide-content" id="service">
+
+            </div>
+            <!--<div class="investmentGuide-title">一、接送服务</div>
+    <div class="investmentGuide-content">
+        据悉，农业农村部今年将在现有1243家农业产业化国家重点龙头企业的基础上，新认定300家国家重点龙头企业，并指导各地加大扶持力度，培育一批省、市、县级龙头企业。同时，中央财政拟安排100亿元资金，重点支持发展农产品初加工、创建特色品牌、建设特色产品基地等。
+        政策还将支持建设乡村产业园区和产业集群，推动乡村产业融合发展，加快形成国家、省、市、县四级农业产业园梯队。支持打造“一村一品、一乡一业”的镇域产业集群，力争用5年时间，建设1500个农业产业强镇，辐射带动乡村产业发展。
+    </div>
+    <div class="investmentGuide-title">二、会议服务</div>
+    <div class="investmentGuide-content">
+        据悉，农业农村部今年将在现有1243家农业产业化国家重点龙头企业的基础上，新认定300家国家重点龙头企业，并指导各地加大扶持力度，培育一批省、市、县级龙头企业。同时，中央财政拟安排100亿元资金，重点支持发展农产品初加工、创建特色品牌、建设特色产品基地等。
+        政策还将支持建设乡村产业园区和产业集群，推动乡村产业融合发展，加快形成国家、省、市、县四级农业产业园梯队。支持打造“一村一品、一乡一业”的镇域产业集群，力争用5年时间，建设1500个农业产业强镇，辐射带动乡村产业发展。
+    </div>-->
+
+        </div>
+
+    </div>
+    <!--结束-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title + "--会议服务");
+                    if (jdata.action.guide == "") {
+                        $('#service').html("暂无会议服务信息");
+                    }
+                    else {
+                        $('#service').html(jdata.action.service);
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+            }
+        });
+    </script>
+</body>
+</html>

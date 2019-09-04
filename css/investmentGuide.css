@@ -1,0 +1,41 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+ul,li{
+    list-style: none;
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+.investmentGuide{
+    background: #F2F2F2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.investmentGuide-all{
+    margin-top: 10px;
+    background: #fff;
+    padding: 0 10px;
+}
+.investmentGuide-title{
+    font-size: 17px;
+    color: #333;
+    line-height: 40px;
+}
+.investmentGuide-content{
+    font-size: 15px;
+    color: #333;
+    line-height: 28px;
+}

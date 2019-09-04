@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <!-- Link activityDetailsOne CSS -->
+    <link rel="stylesheet" type="text/css" href="css/activityDetailsOne.css" />
+    <title id="Htitle">活动详情</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="activityDetailsOne">
+
+        <!--直播  开始-->
+        <div id="id_test_video" style="width:100%; height:auto;"></div>
+        <!--直播  结束-->
+        <!--单位信息  开始-->
+        <div class="activityDetailsOne-all">
+            <div class="activityDetailsOne-all-title" id="title">标题加载中...</div>
+            <div class="activityDetailsOne-all-address">主办单位：<span id="hostUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-address">协办单位：<span id="assistingUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-address">承办单位：<span id="undertakeUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-time">
+                <img src="images/time.png" alt="">
+                <span id="startDate">2019-08-03</span>至<span id="endDate">2019-08-30</span>
+            </div>
+            <div class="activityDetailsOne-all-time">
+                <img class="position" src="images/position.png" alt="">
+                <span id="address">地址加载中...</span>
+            </div>
+        </div>
+        <!--单位信息  结束-->
+        <!--活动指南  开始-->
+        <div class="activityDetailsOne-other">
+            <div class="activityDetailsOne-other-1"><span></span>活动指南</div>
+            <div class="activityDetailsOne-other-content" id="guide">
+                加载中...
+            </div>
+        </div>
+        <!--活动指南  结束-->
+
+    </div>
+    <!--结束-->
+    <!--直播 JS-->
+    <script src="http://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.1.js" charset="utf-8"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title);
+                    $('#title').html(jdata.action.title);
+                    $('#hostUnit').html(jdata.action.hostUnit);
+                    $('#assistingUnit').html(jdata.action.assistingUnit);
+                    $('#undertakeUnit').html(jdata.action.undertakeUnit);
+                    var starttime = jdata.action.startDate;
+                    starttime = starttime.substring(0, 10)
+                    $('#startDate').html(starttime);
+                    var endtime = jdata.action.endDate;
+                    endtime = endtime.substring(0, 10)
+                    $('#endDate').html(endtime);
+                    $('#address').html(jdata.action.address);
+
+                    if (jdata.action.guide == "") {
+                        $('#guide').html("暂无数据");
+                    }
+                    else {
+                        $('#guide').html(jdata.action.guide);
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+                if (data.data.action.banners.type == 3 || data.data.action.banners.type == 4) {
+                    //直播
+                    var player = new TcPlayer('id_test_video', {
+                        "mp4": "http://1256993030.vod2.myqcloud.com/d520582dvodtransgzp1256993030/7732bd367447398157015849771/v.f30.mp4", //请替换成实际可用的播放地址
+                        "autoplay": true,
+                        "poster": "images/1.jpg",
+                        "width": '100%',//视频的显示宽度，请尽量使用视频分辨率宽度
+                        "height": 'auto'//视频的显示高度，请尽量使用视频分辨率高度
+                    });
+                }
+
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link hotelInformation CSS -->
+    <link rel="stylesheet" type="text/css" href="css/hotelInformation.css" />
+    <title id="Htitle">活动详情--酒店信息</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="hotelInformation" id="info">
+        <!--酒店信息  开始-->
+
+        <!--酒店信息  结束-->
+
+    </div>
+    <!--结束-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title + "--酒店信息");
+                    if (jdata.listToucuActionHotel == "") {
+                        $('#info').html("暂无酒店信息,请联系主办方。");
+                    }
+                    else {
+
+                        var json = jdata.listToucuActionHotel;
+                        for (var i = 0; i < json.length; i++) {
+                            // {"字段1":{"参数1":"数据1"}}
+                            var itemJson = json[i];
+                            var diva = "<div class='hotelInformation-all'><div class='hotelInformation-title'><img src='images/house.png'> <span>";
+                            var divb = "</span></div ><div class='hotelInformation-other'><img src='images/person.png'> <span>";
+                            var divc = "</span></div ><div class='hotelInformation-other'><img src='images/tel.png'> <span>";
+                            var divd = "</span></div ><div class='hotelInformation-other'><img src='images/position.png'> <span>";
+                            var dive = "</span></div ></div>";
+
+                            var divinfo = document.getElementById("info");
+                            divinfo.innerHTML = divinfo.innerHTML + diva + itemJson.name + divb + itemJson.linkName + divc + itemJson.telphone + divd + itemJson.address + dive;
+                        }
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+            }
+        });
+    </script>
+</body>
+</html>

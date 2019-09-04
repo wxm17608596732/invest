@@ -1,0 +1,159 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+ul,li{
+    list-style: none;
+}
+
+input{
+    outline: none;
+}
+
+body {
+    font-family: PingFang-SC-Medium;
+    font-size: 14px;
+}
+/*问卷详情*/
+.questionnaire{
+    background: #F2F2F2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.questionnaire-title{
+    background: #fff;
+    padding: 10px 12px;
+}
+.questionnaire-title-1{
+    font-size: 16px;
+    line-height: 28px;
+    color: #333333;
+}
+.questionnaire-title-2{
+    font-size: 14px;
+    line-height: 22px;
+    color: #888;
+}
+
+/*问题*/
+.questionnaire-question{
+    padding: 10px 12px;
+}
+.questionnaire-question-1{
+    font-size: 14px;
+    line-height: 28px;
+}
+.questionnaire-question-2 {
+    position: relative;
+    line-height: 28px;
+}
+
+.questionnaire-question-2 input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    position: relative;
+    left: 12px;
+    top: 4px;
+    z-index: 10;
+}
+
+.questionnaire-question-2 label {
+    position: absolute;
+    left: 10px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #666;
+}
+.questionnaire-question-2 span{
+    margin-left: 15px;
+    color: #888;
+}
+/*设置选中的input的样式*/
+.questionnaire-question-2 input:checked+label {
+    background-color: #B01F24;
+    border: 1px solid #B01F24;
+}
+
+input:checked+label::after {
+    position: absolute;
+    content: "";
+    width: 4px;
+    height: 8px;
+    top: 2px;
+    left: 5px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg)
+}
+
+.questionnaire-question-3 input{
+    width: calc(100% - 30px);
+    border:1px solid #888;
+    background: #F2F2F2;
+    border-radius:8px;
+    height: 37px;
+    padding: 0 15px;
+}
+
+/*提交*/
+.questionnaire-button{
+    padding: 20px;
+    text-align: center;
+}
+.questionnaire-button button{
+    outline: none;
+    line-height: 35px;
+    width: 200px;
+    background: linear-gradient(to right, #c9272d , #b32024);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 16px;
+    border: 1px solid #B01F24;
+}
+.progress {
+    height:13px;
+    background:transparent;
+    padding: 0 15px;
+    margin-bottom: 5px;
+}
+.progress .color-select-A {
+    position:relative;
+    float:left;
+    margin:0 -1px;
+    min-width:30px;
+    height:11px;
+    line-height:16px;
+    text-align:right;
+    border:1px solid #B01F24;
+    background:#B01F24;
+}
+.progress .color-select-B {
+    position:relative;
+    float:left;
+    margin:0 -1px;
+    min-width:30px;
+    height:11px;
+    line-height:16px;
+    text-align:right;
+    border:1px solid #F7B32D;
+    background:#F7B32D;
+}
+.progress-bar-A{
+    position: relative;
+    top: -6px;
+    left: 10px;
+    color: #B01F24;
+}
+.progress-bar-B{
+    position: relative;
+    top: -6px;
+    left: 10px;
+    color: #B01F24;
+}

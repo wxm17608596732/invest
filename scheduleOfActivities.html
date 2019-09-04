@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link scheduleOfActivities CSS -->
+    <link rel="stylesheet" type="text/css" href="css/scheduleOfActivities.css" />
+    <title id="Htitle">活动详情-会议日程</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="scheduleOfActivities" id="ActivityDate">
+
+    </div>
+    <!--结束-->
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title + "-会议日程");
+                    if (jdata.action.listToucuActionSchedule == "") {
+                        $('#ActivityDate').html("暂无日程信息,请联系主办方。");
+                    } else {
+                        var json = jdata.listToucuActionSchedule;
+                        var divid;
+
+                        for (var i = 0; i < json.length; i++) {
+                            // {"字段1":{"参数1":"数据1"}}
+                            var itemJson = json[i];
+                            var TimeT = itemJson.createDate.substring(11, 17)
+                            var divTa = "<div class='scheduleOfActivities-time'><img src = 'images/time.png'><span id='";
+                            var divTa2 ="'>"
+                            var divTb = "</span></div>";
+                            var divA = "<a class='scheduleOfActivities-date scheduleOfActivities-all' href='scheduleDetails.html?actionId=";
+                            var divA2 = "&id=";
+                            var divB = "'><div class='scheduleOfActivities-date-1'>";
+                            var divC = "</div><div class='scheduleOfActivities-date-2'>";
+                            var divD = "</div><div class='scheduleOfActivities-date-3'><img src='images/right.png'></div></a >";
+                            if (i < 1) {
+                                divid="list" + i;
+                                $('#ActivityDate').append(divTa + divid + divTa2 + itemJson.dateString + divTb);
+                            }
+                            var TimeB = document.getElementById(divid).innerHTML;
+                            if (itemJson.dateString != TimeB) {
+                                divid = "list" + i;
+                                $('#ActivityDate').append(divTa + divid + divTa2 + itemJson.dateString + divTb);
+                            } 
+                            $('#ActivityDate').append(divA + actionId + divA2 + itemJson.id + divB + TimeT + "00" + divC + itemJson.title + divD);
+                        }
+                        $('#ActivityDate').append("</div>");
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+            }
+        });
+    </script>
+</body>
+</html>

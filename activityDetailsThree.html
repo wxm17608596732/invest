@@ -1,0 +1,134 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <!-- Link activityDetailsOne CSS -->
+    <link rel="stylesheet" type="text/css" href="css/activityDetailsOne.css" />
+    <title id="Htitle">活动详情</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="activityDetailsOne">
+        <!--轮播图  开始-->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+                <div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+                <div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+                <div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+                <div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
+        </div>
+        <!--轮播图  结束-->
+        <!--单位信息  开始-->
+        <div class="activityDetailsOne-all">
+            <div class="activityDetailsOne-all-title" id="title">标题加载中...</div>
+            <div class="activityDetailsOne-all-address">主办单位：<span id="hostUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-address">协办单位：<span id="assistingUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-address">承办单位：<span id="undertakeUnit">加载中...</span></div>
+            <div class="activityDetailsOne-all-time">
+                <img src="images/time.png" alt="">
+                <span id="startDate">2019-08-03</span>至<span id="endDate">2019-08-30</span>
+            </div>
+            <div class="activityDetailsOne-all-time">
+                <img class="position" src="images/position.png" alt="">
+                <span id="address">地址加载中...</span>
+            </div>
+        </div>
+        <!--单位信息  结束-->
+        <!--活动指南  开始-->
+        <div class="activityDetailsOne-other">
+            <div class="activityDetailsOne-other-1"><span></span>活动指南</div>
+            <div class="activityDetailsOne-other-content" id="guide">
+                加载中...
+            </div>
+        </div>
+        <!--活动指南  结束-->
+
+    </div>
+    <!--结束-->
+    <!-- Swiper JS -->
+    <script src="js/swiper.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title);
+                    $('#title').html(jdata.action.title);
+                    $('#hostUnit').html(jdata.action.hostUnit);
+                    $('#assistingUnit').html(jdata.action.assistingUnit);
+                    $('#undertakeUnit').html(jdata.action.undertakeUnit);
+                    var starttime = jdata.action.startDate;
+                    starttime = starttime.substring(0, 10)
+                    $('#startDate').html(starttime);
+                    var endtime = jdata.action.endDate;
+                    endtime = endtime.substring(0, 10)
+                    $('#endDate').html(endtime);
+                    $('#address').html(jdata.action.address);
+
+                    if (jdata.action.guide == "") {
+                        $('#guide').html("暂无数据");
+                    }
+                    else {
+                        $('#guide').html(jdata.action.guide);
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+            }
+        });
+
+        //轮播图js
+        var swiper = new Swiper('.swiper-container', {
+            spaceBetween: 30,
+            centeredSlides: true,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<!-- Link Swiper's CSS -->
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<!-- Link index CSS -->
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<title>投促宝</title>
+	</head>
+
+	<body>
+		<!--div开始-->
+		<div class="index">
+
+			<!--轮播图  开始-->
+
+			<!-- 主图 -->
+			<div class="swiper-container gallery-top">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/2.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/3.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/4.jpg)"></div>
+					<video class="swiper-slide" controls="controls" autoplay="autoplay" loop="loop" style="width: 100%; height: 100%; display: block;" src="http://1256993030.vod2.myqcloud.com/d520582dvodtransgzp1256993030/7732bd367447398157015849771/v.f30.mp4"></video>
+					<div class="swiper-slide" id="id_test_video" style="width:100%; height:auto;"></div>
+				</div>
+
+				<!-- 左右按钮 -->
+				<div class="swiper-button-next swiper-button-white"></div>
+				<div class="swiper-button-prev swiper-button-white"></div>
+			</div>
+
+			<!--小图-->
+			<div class="swiper-container gallery-thumbs">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="background-image:url(images/1.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/2.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/3.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/4.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/2.jpg)"></div>
+					<div class="swiper-slide" style="background-image:url(images/3.jpg)"></div>
+				</div>
+			</div>
+			<!--轮播图  结束-->
+
+			<!--企业介绍  开始-->
+			<div id="indexBookNav">
+				<ul>
+					<li class="act">企业介绍</li>
+					<li>联系方式</li>
+				</ul>
+			</div>
+			<div id="indexContainer">
+				<div class="tab">
+					<div class="tab-body">
+						贵阳南明老干妈风味食品有限责任公司成立以来，在贵州省、市、区各级党委、政府的支持和帮助下，在企业创始人陶华碧女士的带领下，全体老干妈企业的员工秉承“诚信为本，务实进取”的企业精神，通过九年的艰苦创业，企业已经发展成为全国知名企业、国家级农业产业化经营重点龙头企业。老干妈公司已形成日产量120万瓶辣椒制品的生产能力 ，主要生产风味豆豉、油辣椒、鲜牛肉末、水豆豉、风味腐乳等20余个系列产品，是目前国内生产及销售量最大的辣椒制品生产企业。
+					</div>
+				</div>
+				<div class="tab">
+					<div class="tab-body-2">
+						<div>电话：0851-87888888</div>
+						<div>邮箱：666888888@qq.com</div>
+						<div>地址：贵阳市南明区龙洞堡见龙洞路1号</div>
+					</div>
+				</div>
+			</div>
+			<!--企业介绍  结束-->
+
+		</div>
+		<!--div 结束-->
+
+		<!--视频连线 开始-->
+		<div class="indexButton">
+			<button type="button" class="indexButtonSpan"><img class="indexButtonImg" src="images/phone.png" alt="" />视频连线</button>
+		</div>
+		<!--视频连线 结束-->
+
+		<!-- Swiper JS -->
+		<script src="js/swiper.min.js"></script>
+		<!--直播 JS-->
+		<script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.3.1.js" charset="utf-8"></script>
+
+		<script>
+			//轮播图js
+			var galleryThumbs = new Swiper('.gallery-thumbs', {
+				spaceBetween: 10,
+				slidesPerView: 4,
+				freeMode: true,
+				watchSlidesVisibility: true,
+				watchSlidesProgress: true,
+			});
+			var galleryTop = new Swiper('.gallery-top', {
+				spaceBetween: 10,
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+				thumbs: {
+					swiper: galleryThumbs
+				}
+			});
+
+			//企业介绍/联系方式切换
+			window.onload = function() {
+				var nav = document.getElementById('indexBookNav');
+				var oNav = nav.getElementsByTagName('li');
+				var container = document.getElementById('indexContainer');
+				var oDiv = container.getElementsByClassName('tab');
+				for(var i = 0; i < oNav.length; i++) {
+					oNav[i].index = i;
+					oNav[0].onclick = function() {
+						for(var i = 0; i < oNav.length; i++) {
+							oNav[i].className = '';
+						}
+						this.className = 'act';
+						oDiv[this.index].style.display = "block"
+					}
+					oNav[1].onclick = function() {
+						for(var i = 0; i < oNav.length; i++) {
+							oNav[0].className = '';
+							oDiv[0].style.display = "none";
+						}
+						this.className = 'act';
+						oDiv[this.index].style.display = "block"
+					}
+				}
+			};
+
+			//直播
+			var player = new TcPlayer('id_test_video', {
+			"mp4": "http://1256993030.vod2.myqcloud.com/d520582dvodtransgzp1256993030/7732bd367447398157015849771/v.f30.mp4", //请替换成实际可用的播放地址
+			"autoplay" : true,
+			"poster" : "images/1.jpg",
+			"width" :  '',//视频的显示宽度，请尽量使用视频分辨率宽度
+			"height" : ''//视频的显示高度，请尽量使用视频分辨率高度
+			});
+		</script>
+	</body>
+
+</html>

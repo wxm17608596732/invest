@@ -1,0 +1,60 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+ul,li{
+    list-style: none;
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+.hotelInformation{
+    background: #F2F2F2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.hotelInformation-all{
+    margin: 10px;
+    background: #fff;
+    border-radius: 8px;
+}
+.hotelInformation-title{
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #F2F2F2;
+    margin-bottom: 5px;
+}
+.hotelInformation-title img{
+    width: 17px;
+    height: 15.5px;
+}
+.hotelInformation-title > span{
+    font-size: 16px;
+    color: #333;
+}
+.hotelInformation-other{
+    line-height: 30px;
+    padding: 0 10px;
+}
+.hotelInformation-other:last-child{
+    padding-bottom: 5px;
+}
+.hotelInformation-other img{
+    width: 10.5px;
+    height: 11.5px;
+}
+.hotelInformation-other > span{
+    font-size: 14px;
+    color: #333;
+}

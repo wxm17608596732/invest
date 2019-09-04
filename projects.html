@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link projects CSS -->
+    <link rel="stylesheet" type="text/css" href="css/projects.css" />
+    <title id="Htitle">项目介绍</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="project">
+        <div id="indexBookNav">
+            <ul>
+                <li class="act">项目介绍</li>
+                <li>联系方式</li>
+            </ul>
+        </div>
+        <div id="indexContainer">
+
+            <div class="tab">
+                <div class="tab-body">
+                    <div class="project-title">项目名称：<span id="ProjectName">加载中...</span></div>
+                    <div class="project-title">行业类别：<span id="industry">加载中...</span></div>
+                    <div class="project-title">产业类别：<span id="industry2">加载中...</span></div>
+                    <div class="project-title">建设性质：<span id="build">加载中...</span></div>
+                    <div class="project-title">所在地区：<span id="cityName">加载中...</span></div>
+                    <div class="project-title">合作方式：<span id="cooperation">加载中...</span></div>
+                    <div class="project-title">融资/总投资：<span id="financing">0.00</span>万/<span id="GrossInvestment">0.00</span>万</div>
+                </div>
+                <div class="project-null"></div>
+
+                <div class="project-content">
+                    <div class="project-content-1">项目现状</div>
+                    <div id="project-introduce"></div>
+
+                </div>
+                <div class="project-null"></div>
+
+            </div>
+            <div class="tab">
+                <div class="project-content" id="contactWay">
+                    <div class="project-content-1">项目业主单位联系方式</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="project-button">
+        <button type="button" onclick="call()"><img src="images/phone.png" alt="">立即咨询</button>
+    </div>
+    <!--结束-->
+
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+//请求详情接口
+			var actionId=getUrlSearch('id')
+			var urlAdd= "{'actionId':'"+actionId+"'}"
+        var url = getUrl("/recommendableProjects/info/" + actionId);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {body:urlAdd},
+				dataType:"JSON",
+				success: function(data){
+					console.log(data)
+					if(data.code==0){
+						var jdata =data.data;
+                        $('#Htitle').html(jdata.name);
+                        $('#ProjectName').html(jdata.name);
+                        $('#industry').html(jdata.industry);
+                        $('#industry2').html(jdata.industry2);
+                        $('#build').html(jdata.build);
+                        $('#cityName').html(jdata.cityName);
+                        $('#cooperation').html(jdata.cooperation);
+                        $('#financing').html(jdata.financing);
+                        $('#GrossInvestment').html(jdata.financing);
+
+                       
+
+                        var json = jdata.intro;
+                        for (var i = 0; i < json.length; i++) {
+                            // {"字段1":{"参数1":"数据1"}}
+                            var itemJson = json[i];                      
+
+                            var diva = "<div class='project-content-2'><strong>";
+                            var divb = "</strong></div><div class='project-content-3'>";
+                            var divc = "</div><br>";
+
+                            $('#project-introduce').append(diva + itemJson.title +divb + itemJson.content + divc);
+                        }
+
+                        if (jdata.contactWay == "") {
+                            $('#indexContainer').html("暂无联系方式信息，请直接联系项目当地投促部门。");
+                        }
+                        else {
+
+                            var json = jdata.contactWay;
+                            for (var i = 0; i < json.length; i++) {
+                                // {"字段1":{"参数1":"数据1"}}
+                                var itemJson = json[i];
+                                var diva = "<div class='project-content-title'><span>";
+                                var divb = "</span>：<span>";
+                                var divc = "</span></div>";
+
+                                var divinfo = document.getElementById("contactWay");
+                                divinfo.innerHTML = divinfo.innerHTML + diva + itemJson.title + divb + itemJson.content +divc;
+                            }
+                        }
+
+
+
+					}else{
+						console.log(data.msg);
+					}
+
+			   },error: function(e){
+					//请求数据错误提示错误
+					console.log("网络错误！请稍后再试");
+
+				},complete: function(){
+					//console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+				}
+			});
+
+
+
+    <!--    项目介绍联系方式切换-- >
+            window.onload = function() {
+                var nav = document.getElementById('indexBookNav');
+                var oNav = nav.getElementsByTagName('li');
+                var container = document.getElementById('indexContainer');
+                var oDiv = container.getElementsByClassName('tab');
+                for (var i = 0; i < oNav.length; i++) {
+                    oNav[i].index = i;
+                    oNav[0].onclick = function () {
+                        for (var i = 0; i < oNav.length; i++) {
+                            oNav[i].className = '';
+                        }
+                        this.className = 'act';
+                        oDiv[this.index].style.display = "block"
+                    };
+                    oNav[1].onclick = function () {
+                        for (var i = 0; i < oNav.length; i++) {
+                            oNav[0].className = '';
+                            oDiv[0].style.display = "none";
+                        }
+                        this.className = 'act';
+                        oDiv[this.index].style.display = "block"
+                    }
+                }
+            };
+
+
+        /**
+         *调用ios makeVideoCall方法 , 调用android makeVideoCall并传参
+         */
+        function call() {
+            // var param = {"code": 358731};
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+            if (isAndroid) {
+                // window.webkit.messageHandlers.makeVideoCall.postMessage("358731");
+                window.DetailPgWeb.makeVideoCall("358731");
+
+            } else if (isiOS) {
+                makeVideoCall("358731")
+            }
+        }
+
+    </script>
+</body>
+</html>

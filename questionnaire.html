@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link questionnaire CSS -->
+    <link rel="stylesheet" type="text/css" href="css/questionnaire.css" />
+    <title>调查问卷</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="questionnaire">
+        <!-- 问卷详情 开始-->
+        <div class="questionnaire-title">
+            <div class="questionnaire-title-1">关于贵州省引进新兴产业的问卷调查</div>
+            <div class="questionnaire-title-2">创建时间：2018-08-03</div>
+            <div class="questionnaire-title-2">创建机构：贵州省投资促进局</div>
+            <div class="questionnaire-title-2">描述：关于贵州省引进新兴产业的问卷调查</div>
+        </div>
+        <!-- 问卷详情 开始-->
+        <!--问题  开始-->
+        <div class="questionnaire-question">
+            <div class="questionnaire-question-1" id="question1">1.这是问题一对此你有什么看法</div>
+
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item" value="A.这是选项一" checked>
+                <label></label>
+                <span>A.这是选项一</span>
+            </div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item" value="B.这是选项二">
+                <label></label>
+                <span>B.这是选项二</span>
+            </div>
+
+            <div class="questionnaire-question-1">2.这是问题一对此你有什么看法</div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item2" value="A.这是选项一" checked>
+                <label></label>
+                <span>A.这是选项一</span>
+            </div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item2" value="B.这是选项二">
+                <label></label>
+                <span>B.这是选项二</span>
+            </div>
+
+            <div class="questionnaire-question-1">3.这是问题一对此你有什么看法</div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item3" value="A.这是选项一" checked>
+                <label></label>
+                <span>A.这是选项一</span>
+            </div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item3" value="B.这是选项二">
+                <label></label>
+                <span>B.这是选项二</span>
+            </div>
+
+            <div class="questionnaire-question-1">4.这是问题一对此你有什么看法</div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item4" value="A.这是选项一" checked>
+                <label></label>
+                <span>A.这是选项一</span>
+            </div>
+            <div class="questionnaire-question-2">
+                <input type="radio" name="item4" value="B.这是选项二">
+                <label></label>
+                <span>B.这是选项二</span>
+            </div>
+
+            <div class="questionnaire-question-1">5.这是问题一对此你有什么看法</div>
+            <div class="questionnaire-question-3">
+                <input type="text" placeholder="#请输入#" value="" id="userInput" onblur="getValue()">
+            </div>
+
+            <!--提交按钮-->
+            <div class="questionnaire-button">
+                <button type="button" onclick="submitClick()">提交</button>
+            </div>
+
+
+        </div>
+        <!--问题  结束-->
+    </div>
+    <!--结束-->
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/url.js"></script>
+    <script>
+        
+        // 获取munuId     
+        var menuId = getUrlSearch('menuId')
+        console.log(menuId);
+        //获取问题
+        $.ajax({
+            type: 'POST',
+            url: "https://result.eolinker.com/dYKddeJe8c6867800ad10b95e99839bba7ff4a28f0b1149?uri=/questionnaire/getQuestions",
+            dataType:"JSON",
+            data: {
+                menuId: menuId
+            },
+            success: function (res){
+                console.log(res);
+                console.log(res.data);
+                var questionList = res.data.questionList;
+                console.log(questionList);
+                var question1 = questionList[1].question;
+                console.log(question1);
+                $("#question1").html('1.'+question1);
+                for(var i in questionList[1].answerList ){
+                    var value = questionList[1].answerList[i].answerNo;
+                    var spanText = questionList[1].answerList[i].answer;
+                    $("#question1").append($('<div class="questionnaire-question-2"></div>'));
+                    $('.questionnaire-question-2').append($('<input type="radio" name="item4"  checked>').attr('value',value)); 
+                    $('.questionnaire-question-2').append($('<label></label>'));
+                    $('.questionnaire-question-2').append($('<span></span>').html(spanText));
+
+                }
+            },
+            error: function(e){
+					//请求数据错误提示错误
+					console.log("网络错误！请稍后再试");
+					
+                },
+            complete: function(){
+					//console.log('请求数据不管成功还是失败，完成请求都会执行的');
+					
+				}
+        })
+        var inputAnswer = $("#userInput").val();
+        //监听input发生改变事件
+        function getValue(){
+            inputAnswer = $("#userInput").val();
+            console.log('用户输入:' + inputAnswer);
+        }    
+          //点击提交
+            function submitClick(){
+            //提交答案到接口
+            $.ajax({
+            type: 'POST',
+            url: "https://result.eolinker.com/dYKddeJe8c6867800ad10b95e99839bba7ff4a28f0b1149?uri=/questionnaire/userAnswer",
+            dataType:"JSON",
+            data: {
+                menuId: menuId,
+                answer: [{
+                    "questionId": questionId,
+                    "optionId": [optionId],
+                    "inputAnswer": inputAnswer
+                }],
+
+            },
+            success: function (res){
+                console.log(res);
+                if(res.code === 0){
+                   console.log("跳转")
+                   //提交成功，跳转到新页面
+                   url="questionnaireTwo.html?menuId=" + menuId;
+                   console.log(url);
+                   window.location.href=url;
+                }
+                
+            },
+            error: function(e){
+					//请求数据错误提示错误
+					console.log("网络错误！请稍后再试");
+					
+                },
+            complete: function(){
+					//console.log('请求数据不管成功还是失败，完成请求都会执行的');
+					
+				}
+        })
+
+            }
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+ul,li{
+    list-style: none;
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+.scheduleOfActivities{
+    background: #F2F2F2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.scheduleOfActivities-time{
+    background: #fff;
+    border-radius: 50px;
+    display: inline-block;
+    margin: 10px 20px;
+    padding: 5px 10px;
+}
+.scheduleOfActivities-time img{
+    width: 18px;
+    height: 18px;
+    position: relative;
+    top: 2px;
+}
+.scheduleOfActivities-time span{
+    color: #333333;
+    font-size: 15px;
+}
+
+.scheduleOfActivities-all{
+    padding: 0 10px;
+    background: #fff;
+}
+.scheduleOfActivities-date{
+    display: flex;
+    text-decoration: none;
+    color: #333333;
+    font-size: 15px;
+    border-bottom: 1px solid #F2F2F2;
+}
+.scheduleOfActivities-date-1{
+    width: 75px;
+    line-height: 40px;
+}
+.scheduleOfActivities-date-2{
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    line-height: 40px;
+}
+
+.scheduleOfActivities-date-3{
+    padding-top: 11px;
+}
+.scheduleOfActivities-date-3 img{
+    width: 18px;
+    height: 18px;
+}

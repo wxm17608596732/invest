@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Link investmentGuide CSS -->
+    <link rel="stylesheet" type="text/css" href="css/investmentGuide.css" />
+    <title id="Htitle">活动详情-投资指南</title>
+</head>
+<body>
+    <!--开始-->
+    <div class="investmentGuide">
+
+        <div class="investmentGuide-all" id="investmentGuide">
+            加载中...
+        </div>
+
+    </div>
+    <!--结束-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //请求详情接口
+        var actionId = getUrlSearch('id')
+        var urlAdd = "{'actionId':'" + actionId + "'}"
+        var url = getUrl("/toucu/action/actionInfo/" + actionId);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { body: urlAdd },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    var jdata = data.data;
+                    $('#Htitle').html(jdata.action.title + "-投资指南");
+                    if (jdata.action.investmentGuide == "") {
+                        $('#investmentGuide').html("暂无投资指南信息");
+                    }
+                    else {
+                        $('#investmentGuide').html(jdata.action.investmentGuide);
+                    }
+
+                } else {
+                    console.log(data.msg);
+                }
+            }, error: function (e) {
+                //请求数据错误提示错误
+                console.log("网络错误！请稍后再试");
+
+            }, complete: function () {
+                //console.log('请求数据不管成功还是失败，完成请求都会执行的');
+
+            }
+        });
+    </script>
+</body>
+</html>
